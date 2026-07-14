@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <textarea id="in" style="width:100%;height:100px;"></textarea><br>
+    <button onclick="check()">チェック</button>
+    <div id="out"></div>
+
+    <script>
+        async function check() {
+            let txt = document.getElementById('in').value;
+            // warning.txt と normal.txt を読み込む
+            const resWarn = await fetch('warning.txt');
+            const resNorm = await fetch('normal.txt');
+            const warnWords = (await resWarn.text()).split('\n').filter(w => w.trim() !== "");
+            const normWords = (await resNorm.text()).split('\n').filter(w => w.trim() !== "");
+
+            let isWarningFound = false;
+
+            // 警告ワードの判定
+            warnWords.forEach(w => {
+                if (w && txt.includes(w)) {
+                    isWarningFound = true;
+                    let r = new RegExp(w, 'g');
+                    txt = txt.replace(r, `<span style="background:red; color:white; font-weight:bold;">${w}</span>`);
+                }
+            });
+
+            // 通常ワードの判定
+            normWords.forEach(w => {
+                if (w && txt.includes(w)) {
+                    let r = new RegExp(w, 'g');
+                    txt = txt.replace(r, `<span style="background:yellow; font-weight:bold;">${w}</span>`);
+                }
+            });
+
+            // 結果を表示
+            let alertMsg = isWarningFound ? 
+                '<br><br><b style="color:red; font-size:1.2em;">⚠️警告：本当にこの言葉を使いますか？（人を傷つける目的で使用しませんか？）</b>' : '';
+            
+            document.getElementById('out').innerHTML = txt + alertMsg;
+        }
+    </script>
+</body>
+</html>
