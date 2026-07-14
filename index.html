@@ -53,23 +53,25 @@
 
             let isWarningFound = false;
 
-            // 警告ワードの判定
+           // 警告ワードの判定
             warnWords.forEach(w => {
+           // リストに書かれている言葉(w)が、入力文章の中に「そのまま」含まれているかチェック
                 if (w && txt.includes(w)) {
                     isWarningFound = true;
-                    let r = new RegExp(w, 'g');
+                    let escapedW = w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    let r = new RegExp(escapedW, 'g');
                     txt = txt.replace(r, `<span style="background:red; color:white; font-weight:bold;">${w}</span>`);
                 }
             });
-
-            // 通常ワードの判定
+            
+        　　// 通常ワードの判定
             normWords.forEach(w => {
                 if (w && txt.includes(w)) {
-                    let r = new RegExp(w, 'g');
-                    txt = txt.replace(r, `<span style="background:yellow; font-weight:bold;">${w}</span>`);
+                    let escapedW = w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    let r = new RegExp(escapedW, 'g');
+                    txt = txt.replace(r, `<span style="background:yellow;">${w}</span>`);
                 }
             });
-
             // 結果を表示
             let alertMsg = isWarningFound ? 
                 '<br><br><b style="color:red; font-size:1.2em;">⚠️警告：本当にこの言葉を使いますか？（人を傷つける目的で使用しませんか？）</b>' : '';
