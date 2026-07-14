@@ -39,6 +39,14 @@
 </head>
 <body>
 
+    <div style="text-align: center; margin-bottom: 20px;">
+    <h1 style="font-size: 2em; margin-bottom: 5px;">ハロスイ禁止ワードチェッカー</h1>
+    <p style="color: gray; font-size: 0.9em;">以下に文書を貼り付け、下の青いボタンを押してください。規制フィルターに引っかかっている箇所が色付けされます。</p></div>
+    <textarea id="in" style="width: 80%; height: 200px; display: block; margin: 0 auto;"></textarea>
+   
+    <button onclick="check()" style="display: block; margin: 20px auto; width: 80%; padding: 15px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">チェック</button>
+    <div id="out" style="width: 80%; margin: 20px auto;"></div>
+
     <textarea id="in" placeholder="ここに文章を入力してください"></textarea>
     <button onclick="check()">チェック</button>
     <div id="out"></div>
